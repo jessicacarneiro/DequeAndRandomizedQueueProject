@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Deque {
+public class Deque<Item> implements Iterable<Item> {
 
     private ArrayList<Item> queue;
 
@@ -74,12 +74,7 @@ public class Deque {
 
             @Override
             public void remove() {
-                if (!i.hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                
-                i.next();
-                i.remove();
+                throw new UnsupportedOperationException();
             }
 
             @Override
@@ -88,8 +83,4 @@ public class Deque {
             }
         };
     }
-
-    public static void main(String[] args) {
-    }
-    
 }
