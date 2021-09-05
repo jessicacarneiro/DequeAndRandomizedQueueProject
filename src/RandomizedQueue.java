@@ -65,12 +65,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
             @Override
             public void remove() {
-                if (!i.hasNext()) {
-                    throw new NoSuchElementException();
-                }
-
-                i.next();
-                i.remove();
+                throw new UnsupportedOperationException();
             }
 
             @Override
