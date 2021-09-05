@@ -30,6 +30,15 @@ class DequeTest {
     }
 
     @Test
+    void shouldReturnSizeTwoWhenDequeHasTwoElements() {
+        Deque<Item> deque = new Deque<>();
+        deque.addFirst(new Item());
+        deque.addFirst(new Item());
+
+        assertEquals(2, deque.size());
+    }
+
+    @Test
     void shouldThrowIllegalArgumentExceptionIfAddFirstWithNullElement() {
         Deque<Item> deque = new Deque<>();
 
