@@ -112,4 +112,49 @@ class DequeTest {
 
         assertEquals(secondItem, deque.removeFirst());
     }
+
+    @Test
+    void shouldNoSuchElementExceptionIfCallingRemoveInIteratorWhenDequeIsEmpty() {
+        Deque<Item> deque = new Deque<>();
+        Iterator<Item> iterator = deque.iterator();
+
+        assertThrows(NoSuchElementException.class, () -> { iterator.next(); });
+    }
+
+    @Test
+    void shouldReturnTrueIfDequeHasNextElementWhenCallingNextMethodFromIterator() {
+        Deque<Item> deque = new Deque<>();
+        deque.addFirst(new Item());
+        Iterator<Item> iterator = deque.iterator();
+
+        assertTrue(iterator.hasNext());
+    }
+
+    @Test
+    void shouldReturnFalseIfDequeIsEmptyWhenCallingNextMethodFromIterator() {
+        Deque<Item> deque = new Deque<>();
+        Iterator<Item> iterator = deque.iterator();
+
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void shouldGetNextElementWithNextMethodFromIterator() {
+        Deque<Item> deque = new Deque<>();
+        Item item = new Item();
+        deque.addFirst(item);
+
+        Iterator<Item> iterator = deque.iterator();
+
+        assertEquals(item, iterator.next());
+    }
+
+    @Test
+    void shouldThrowUnsupportedOperationExceptionWhenCallingRemoveMethodFromIterator() {
+        Deque<Item> deque = new Deque<>();
+        deque.addFirst(new Item());
+        Iterator<Item> iterator = deque.iterator();
+
+        assertThrows(UnsupportedOperationException.class, () -> { iterator.remove(); });
+    }
 }
