@@ -4,9 +4,9 @@ import java.util.NoSuchElementException;
 
 import edu.princeton.cs.algs4.StdRandom;
 
-public class RandomizedQueue<Item> implements Iterable<Item> {
+public class RandomizedQueue<T> implements Iterable<T> {
 
-    private ArrayList<Item> queue;
+    private ArrayList<T> queue;
 
     public RandomizedQueue() {
         this.queue = new ArrayList<>();
@@ -20,7 +20,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return this.queue.size();
     }
 
-    public void enqueue(Item item) {
+    public void enqueue(T item) {
         if (item == null) {
             throw new IllegalArgumentException();
         }
@@ -28,7 +28,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         this.queue.add(item);
     }
 
-    public Item dequeue() {
+    public T dequeue() {
         if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
@@ -38,7 +38,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return this.queue.remove(index);
     }
 
-    public Item sample() {
+    public T sample() {
         if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
@@ -48,15 +48,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return this.queue.get(index);
     }
 
-    public Iterator<Item> iterator() {
+    public Iterator<T> iterator() {
         StdRandom.shuffle(queue.toArray());
 
-        return new Iterator<Item>() {
+        return new Iterator<T>() {
 
-            private Iterator<Item> i = queue.iterator();
+            private Iterator<T> i = queue.iterator();
 
             @Override
-            public Item next() {
+            public T next() {
                 if (!i.hasNext()) {
                     throw new NoSuchElementException();
                 }

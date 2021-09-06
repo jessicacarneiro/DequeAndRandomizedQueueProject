@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Deque<Item> implements Iterable<Item> {
+public class Deque<T> implements Iterable<T> {
 
-    private ArrayList<Item> queue;
+    private ArrayList<T> queue;
 
     public Deque() {
-        this.queue = new ArrayList<Item>();
+        this.queue = new ArrayList<T>();
     }
 
     public boolean isEmpty() {
@@ -18,7 +18,7 @@ public class Deque<Item> implements Iterable<Item> {
         return this.queue.size();
     }
 
-    public void addFirst(Item item) {
+    public void addFirst(T item) {
         if (item == null) {
             throw new IllegalArgumentException();
         }
@@ -26,7 +26,7 @@ public class Deque<Item> implements Iterable<Item> {
         this.queue.add(0, item);
     }
 
-    public void addLast(Item item) {
+    public void addLast(T item) {
         if (item == null) {
             throw new IllegalArgumentException();
         }
@@ -34,7 +34,7 @@ public class Deque<Item> implements Iterable<Item> {
         this.queue.add(item);
     }
 
-    public Item removeFirst() {
+    public T removeFirst() {
         if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
@@ -42,7 +42,7 @@ public class Deque<Item> implements Iterable<Item> {
         return this.queue.remove(0);
     }
 
-    public Item removeLast() {
+    public T removeLast() {
         if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
@@ -51,13 +51,13 @@ public class Deque<Item> implements Iterable<Item> {
         return this.queue.remove(last);
     }
 
-    public Iterator<Item> iterator() {
-        return new Iterator<Item>() {
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
 
-            private Iterator<Item> i = queue.iterator();
+            private Iterator<T> i = queue.iterator();
 
             @Override
-            public Item next() {
+            public T next() {
                 if (!i.hasNext()) {
                     throw new NoSuchElementException();
                 }
