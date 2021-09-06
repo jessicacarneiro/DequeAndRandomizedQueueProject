@@ -1,8 +1,7 @@
-import java.util.Arrays;
+import edu.princeton.cs.algs4.StdRandom;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
@@ -87,39 +86,25 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public Iterator<Item> iterator() {
-        int[] tempIndexArray = null;
-
-        if (indexArray != null) {
-            tempIndexArray = Arrays.copyOf(indexArray, indexArray.length);
-            StdRandom.shuffle(tempIndexArray);
-        }
-
-        int[] finalTempIndexArray = tempIndexArray;
+        int[] tempIndexArray = generateShuffledIndexArray(indexArray);
 
         return new Iterator<Item>() {
-
             private int cursor = 0;
             private int cursorPosition = 0;
 
             @Override
             public Item next() {
-                if (finalTempIndexArray == null || cursorPosition == indexArray.length) {
+                if (tempIndexArray == null || cursorPosition == indexArray.length) {
                     throw new NoSuchElementException();
                 }
 
-                Node node = firstNode;
-
-                for (int i = 0; i < cursor; i++) {
-                    node = node.getNext();
-                }
-
+                Item item = findNode(firstNode, cursorPosition);
                 if (cursorPosition < indexArray.length - 1) {
-                    cursor = finalTempIndexArray[cursorPosition + 1];
+                    cursor = tempIndexArray[cursorPosition + 1];
                 }
-
                 cursorPosition += 1;
 
-                return (Item) node.getItem();
+                return item;
             }
 
             @Override
@@ -129,9 +114,56 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
             @Override
             public boolean hasNext() {
-                return finalTempIndexArray != null && cursorPosition < indexArray.length;
+                return tempIndexArray != null && cursorPosition < indexArray.length;
             }
         };
+    }
+
+    private void resizeIndexArray(int newSize) {
+        int[] newIndexArray = new int[newSize];
+
+        if (newSize > this.size()) {
+            for (int i = 0; i < this.size(); i++) {
+                newIndexArray[i] = this.indexArray[i];
+            }
+            newIndexArray[this.size()] = this.size();
+        } else {
+            for (int i = 1; i < this.size(); i++) {
+                newIndexArray[i - 1] = this.indexArray[i];
+            }
+        }
+
+        this.indexArray = newIndexArray;
+    }
+
+    private int[] copyArray(int[] oldArray) {
+        int[] newArray = new int[oldArray.length];
+
+        for (int i = 0; i < oldArray.length; i++) {
+            newArray[i] = oldArray[i];
+        }
+
+        return newArray;
+    }
+
+    private int[] generateShuffledIndexArray(int[] oldIndexArray) {
+        if (oldIndexArray != null) {
+            int[] tempIndexArray = copyArray(indexArray);
+            StdRandom.shuffle(tempIndexArray);
+            return tempIndexArray;
+        }
+
+        return null;
+    }
+
+    private Item findNode(Node firstNode, int position) {
+        Node node = firstNode;
+
+        for (int i = 0; i < position; i++) {
+            node = node.getNext();
+        }
+
+        return (Item) node;
     }
 
     private class Node<Item> {
@@ -156,24 +188,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
     }
 
-    private void resizeIndexArray(int newSize) {
-        int[] newIndexArray = new int[newSize];
-
-        if (newSize > this.size()) {
-            for (int i = 0; i < this.size(); i++) {
-                newIndexArray[i] = this.indexArray[i];
-            }
-            newIndexArray[this.size()] = this.size();
-        }
-        else {
-            for (int i = 1; i < this.size(); i++) {
-                newIndexArray[i-1] = this.indexArray[i];
-            }
-        }
-
-        this.indexArray = newIndexArray;
-    }
-
+    // empty required method
     public static void main(String[] args) {
 
     }
