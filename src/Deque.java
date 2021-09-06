@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -63,10 +62,8 @@ public class Deque<Item> implements Iterable<Item> {
         Item itemToBeRemoved = this.queue[0];
         Item[] newQueue = (Item[]) new Object[this.size() - 1];
 
-        int j = 0;
         for (int i = 1; i < this.size(); i++) {
-            newQueue[j] = this.queue[i];
-            j++;
+            newQueue[i - 1] = this.queue[i];
         }
 
         this.queueSize -= 1;
@@ -95,29 +92,33 @@ public class Deque<Item> implements Iterable<Item> {
 
     public Iterator<Item> iterator() {
         return new Iterator<Item>() {
-
-            private Iterator<Item> i = Arrays.stream(queue).iterator();
+            private int cursor = queueSize == 0 ? -1 : 0;
 
             @Override
             public Item next() {
-                if (!i.hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                return i.next();
+                if (!hasNext()) { throw new NoSuchElementException(); }
+
+                int currentIndex = cursor;
+                incrementCursor();
+
+                return queue[currentIndex];
+            }
+
+            private void incrementCursor() {
+                if (++cursor == queueSize) { cursor = -1; }
             }
 
             @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
+            public void remove() { throw new UnsupportedOperationException(); }
 
             @Override
-            public boolean hasNext() {
-                return i.hasNext();
-            }
+            public boolean hasNext() { return cursor != -1; }
         };
     }
 
+    /*
+     empty main - REQUIRED!
+     */
     public static void main(String[] args) {
 
     }
