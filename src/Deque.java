@@ -137,4 +137,8 @@ public class Deque<Item> implements Iterable<Item> {
             return next;
         }
     }
+
+    public static void main(String[] args) {
+
+    }
 }
