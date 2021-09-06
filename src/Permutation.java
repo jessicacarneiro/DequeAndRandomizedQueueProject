@@ -12,7 +12,8 @@ public class Permutation {
         }
 
         for (int i = 0; i < k; i++) {
-            StdOut.println(randomizedQueue.sample());
+            String item = randomizedQueue.dequeue();
+            StdOut.println(item);
         }
     }
 }
