@@ -88,7 +88,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             }
 
             private void incrementCursor() {
-                if (++cursor == queueSize) { cursor = -1; }
+                cursor++;
+                if (cursor == queueSize) { cursor = -1; }
             }
 
             @Override
