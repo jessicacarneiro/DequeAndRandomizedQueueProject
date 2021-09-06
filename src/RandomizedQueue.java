@@ -172,4 +172,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         this.indexArray = newIndexArray;
     }
+
+    public static void main(String[] args) {
+
+    }
 }
