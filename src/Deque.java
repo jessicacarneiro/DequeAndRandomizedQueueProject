@@ -2,13 +2,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Deque<T> implements Iterable<T> {
+public class Deque<Item> implements Iterable<Item> {
 
-    private T[] queue;
+    private Item[] queue;
     private int queueSize;
 
     public Deque() {
-        this.queue = (T[]) new Object[0];
+        this.queue = (Item[]) new Object[0];
         this.queueSize = 0;
     }
 
@@ -20,12 +20,12 @@ public class Deque<T> implements Iterable<T> {
         return this.queueSize;
     }
 
-    public void addFirst(T item) {
+    public void addFirst(Item item) {
         if (item == null) {
             throw new IllegalArgumentException();
         }
 
-        T[] newQueue = (T[]) new Object[this.size() + 1];
+        Item[] newQueue = (Item[]) new Object[this.size() + 1];
         newQueue[0] = item;
 
         int j = 1;
@@ -38,12 +38,12 @@ public class Deque<T> implements Iterable<T> {
         this.queue = newQueue;
     }
 
-    public void addLast(T item) {
+    public void addLast(Item item) {
         if (item == null) {
             throw new IllegalArgumentException();
         }
 
-        T[] newQueue = (T[]) new Object[this.size() + 1];
+        Item[] newQueue = (Item[]) new Object[this.size() + 1];
 
         for (int i = 0; i < this.size(); i++) {
             newQueue[i] = this.queue[i];
@@ -55,13 +55,13 @@ public class Deque<T> implements Iterable<T> {
         this.queue = newQueue;
     }
 
-    public T removeFirst() {
+    public Item removeFirst() {
         if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        T itemToBeRemoved = this.queue[0];
-        T[] newQueue = (T[]) new Object[this.size() - 1];
+        Item itemToBeRemoved = this.queue[0];
+        Item[] newQueue = (Item[]) new Object[this.size() - 1];
 
         int j = 0;
         for (int i = 1; i < this.size(); i++) {
@@ -75,13 +75,13 @@ public class Deque<T> implements Iterable<T> {
         return itemToBeRemoved;
     }
 
-    public T removeLast() {
+    public Item removeLast() {
         if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        T itemToBeRemoved = this.queue[this.size() - 1];
-        T[] newQueue = (T[]) new Object[this.size() - 1];
+        Item itemToBeRemoved = this.queue[this.size() - 1];
+        Item[] newQueue = (Item[]) new Object[this.size() - 1];
 
         for (int i = 0; i < this.size() - 1; i++) {
             newQueue[i] = this.queue[i];
@@ -93,13 +93,13 @@ public class Deque<T> implements Iterable<T> {
         return itemToBeRemoved;
     }
 
-    public Iterator<T> iterator() {
-        return new Iterator<T>() {
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
 
-            private Iterator<T> i = Arrays.stream(queue).iterator();
+            private Iterator<Item> i = Arrays.stream(queue).iterator();
 
             @Override
-            public T next() {
+            public Item next() {
                 if (!i.hasNext()) {
                     throw new NoSuchElementException();
                 }
