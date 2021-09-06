@@ -4,6 +4,12 @@ Second programming assignment for Princeton's course "Algorithms, part I"
 
 [Assignment specification](https://coursera.cs.princeton.edu/algs4/assignments/queues/specification.php)
 
+
+## TODO:
+
+- [ ] Improvements for timing (ideas: use linked lists?)
+- [ ] Improvements for memory usage
+
 ## References
 
 * [How to create a generic array in Java?](https://stackoverflow.com/questions/529085/how-to-create-a-generic-array-in-java)
