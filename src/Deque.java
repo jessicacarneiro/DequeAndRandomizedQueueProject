@@ -67,8 +67,6 @@ public class Deque<Item> implements Iterable<Item> {
 
         firstNode = firstNode.getNext();
 
-        this.queueSize -= 1;
-
         return itemToBeRemoved;
     }
 
@@ -85,13 +83,13 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         lastNode = lastNode.getNext();
-        this.queueSize -= 1;
 
         return itemToBeRemoved;
     }
 
     public Iterator<Item> iterator() {
         return new Iterator<Item>() {
+
             private Node cursor = firstNode;
 
             @Override

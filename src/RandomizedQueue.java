@@ -65,7 +65,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         resizeIndexArray(this.size() - 1);
-        this.queueSize -= 1;
 
         return (Item) nodeToRemove.getItem();
     }
