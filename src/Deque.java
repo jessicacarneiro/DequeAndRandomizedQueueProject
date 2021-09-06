@@ -140,7 +140,6 @@ public class Deque<Item> implements Iterable<Item> {
         }
     }
 
-    // empty required method
     public static void main(String[] args) {
 
     }
