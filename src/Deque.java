@@ -1,14 +1,13 @@
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Deque<T> implements Iterable<T> {
+public class Deque<Item> implements Iterable<Item> {
 
-    private T[] queue;
+    private Node firstNode = null;
+    private Node lastNode = null;
     private int queueSize;
 
     public Deque() {
-        this.queue = (T[]) new Object[0];
         this.queueSize = 0;
     }
 
@@ -20,90 +19,89 @@ public class Deque<T> implements Iterable<T> {
         return this.queueSize;
     }
 
-    public void addFirst(T item) {
+    public void addFirst(Item item) {
         if (item == null) {
             throw new IllegalArgumentException();
         }
 
-        T[] newQueue = (T[]) new Object[this.size() + 1];
-        newQueue[0] = item;
-
-        int j = 1;
-        for (int i = 0; i < this.size(); i++) {
-            newQueue[j] = this.queue[i];
-            j++;
+        if (this.isEmpty()) {
+            firstNode = new Node(item);
+            lastNode = firstNode;
+        }
+        else {
+            Node newNode = new Node(item, firstNode);
+            firstNode = newNode;
         }
 
         this.queueSize += 1;
-        this.queue = newQueue;
     }
 
-    public void addLast(T item) {
+    public void addLast(Item item) {
         if (item == null) {
             throw new IllegalArgumentException();
         }
 
-        T[] newQueue = (T[]) new Object[this.size() + 1];
-
-        for (int i = 0; i < this.size(); i++) {
-            newQueue[i] = this.queue[i];
+        if (this.isEmpty()) {
+            firstNode = new Node(item);
+            lastNode = firstNode;
         }
-
-        newQueue[this.size()] = item;
+        else {
+            Node newNode = new Node(item);
+            lastNode = newNode;
+        }
 
         this.queueSize += 1;
-        this.queue = newQueue;
     }
 
-    public T removeFirst() {
+    public Item removeFirst() {
         if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        T itemToBeRemoved = this.queue[0];
-        T[] newQueue = (T[]) new Object[this.size() - 1];
+        Item itemToBeRemoved = (Item) this.firstNode.getItem();
 
-        int j = 0;
-        for (int i = 1; i < this.size(); i++) {
-            newQueue[j] = this.queue[i];
-            j++;
+        // if single node, lastNode should point to the same place as firstNode (null)
+        if (lastNode == firstNode) {
+            lastNode = firstNode.getNext();
         }
 
-        this.queueSize -= 1;
-        this.queue = newQueue;
+        firstNode = firstNode.getNext();
 
         return itemToBeRemoved;
     }
 
-    public T removeLast() {
+    public Item removeLast() {
         if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        T itemToBeRemoved = this.queue[this.size() - 1];
-        T[] newQueue = (T[]) new Object[this.size() - 1];
+        Item itemToBeRemoved = (Item) this.lastNode.getItem();
 
-        for (int i = 0; i < this.size() - 1; i++) {
-            newQueue[i] = this.queue[i];
+        // if single node, firstNode should point to the same place as lastNode (null)
+        if (lastNode == firstNode) {
+            firstNode = lastNode.getNext();
         }
 
-        this.queueSize -= 1;
-        this.queue = newQueue;
+        lastNode = lastNode.getNext();
 
         return itemToBeRemoved;
     }
 
-    public Iterator<T> iterator() {
-        return new Iterator<T>() {
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
 
-            private Iterator<T> i = Arrays.stream(queue).iterator();
+            private Node cursor = firstNode;
 
             @Override
-            public T next() {
-                if (!i.hasNext()) {
+            public Item next() {
+                if (cursor == null || cursor.getItem() == null) {
                     throw new NoSuchElementException();
                 }
-                return i.next();
+
+                Item currentItem = (Item) cursor.getItem();
+                cursor = cursor.getNext();
+
+                return currentItem;
             }
 
             @Override
@@ -113,8 +111,30 @@ public class Deque<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return i.hasNext();
+                return cursor != null;
             }
         };
+    }
+
+    private class Node<Item> {
+        Item item;
+        Node next;
+
+        public Node(Item item) {
+            this.item = item;
+        }
+
+        public Node(Item item, Node next) {
+            this.item = item;
+            this.next = next;
+        }
+
+        public Item getItem() {
+            return item;
+        }
+
+        public Node getNext() {
+            return next;
+        }
     }
 }
